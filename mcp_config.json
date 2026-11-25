@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "expert-hub": {
+      "command": "node",
+      "args": ["${PLUGIN_ROOT}/server/index.mjs", "--data_dir=${PLUGIN_DATA}"]
+    }
+  }
+}

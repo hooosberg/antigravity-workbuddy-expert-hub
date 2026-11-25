@@ -1,0 +1,16 @@
+# Dependencies & build output
+node_modules/
+dist/
+
+# Runtime user data, caches & personal custom experts
+.data/
+prompt-cache/
+custom-experts/
+state.json
+
+# OS & Editor artifacts
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*

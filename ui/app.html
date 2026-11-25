@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>专家与技能市场</title>
+  <link rel="stylesheet" href="./src/styles.css" />
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <!-- Top Header -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <nav class="main-nav" role="tablist">
+          <button class="nav-tab active" data-tab="experts" role="tab">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="6" width="16" height="12" rx="5"/>
+              <circle cx="9.5" cy="12" r="1.4" fill="currentColor" stroke="none"/>
+              <circle cx="14.5" cy="12" r="1.4" fill="currentColor" stroke="none"/>
+              <path d="M12 6V3"/>
+            </svg>
+            <span>专家</span>
+          </button>
+          <button class="nav-tab" data-tab="skills" role="tab">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3l1.9 5.3L19 10.2l-5.1 1.9L12 17.5l-1.9-5.4L5 10.2l5.1-1.9L12 3z"/>
+              <path d="M18.5 16l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2z"/>
+            </svg>
+            <span>技能</span>
+          </button>
+          <button class="nav-tab" data-tab="connectors" role="tab">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            <span>连接器</span>
+          </button>
+        </nav>
+      </div>
+
+      <div class="topbar-right">
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7"/>
+            <path d="m20 20-3.5-3.5"/>
+          </svg>
+          <input id="searchInput" type="text" placeholder="搜索专家" autocomplete="off" />
+          <button id="clearSearchBtn" class="clear-btn hidden" title="清空搜索">×</button>
+        </div>
+        <button id="myExpertsBtn" class="my-experts-btn" data-tab="mine">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8.5" r="3.5"/>
+            <path d="M5.5 19.5c0-3.3 2.9-5.5 6.5-5.5s6.5 2.2 6.5 5.5"/>
+          </svg>
+          <span>我的专家</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Scroll Area -->
+    <main id="mainContent" class="main-content">
+      <div class="loading-state" id="loadingState">
+        <div class="spinner"></div>
+        <p>正在加载本地专家与技能库...</p>
+      </div>
+      <div id="viewContainer" class="view-container hidden"></div>
+    </main>
+
+    <!-- Slide-over Detail Drawer -->
+    <div id="drawerBackdrop" class="drawer-backdrop hidden"></div>
+    <aside id="detailDrawer" class="detail-drawer hidden" aria-hidden="true">
+      <div id="drawerBody" class="drawer-inner"></div>
+    </aside>
+
+    <!-- Create Custom Expert Modal -->
+    <div id="modalBackdrop" class="modal-backdrop hidden">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>新建自定义专家</h3>
+          <button id="closeModalBtn" class="icon-btn" title="关闭">×</button>
+        </div>
+        <form id="createExpertForm" class="modal-form">
+          <label>
+            <span>专家名称 *</span>
+            <input name="name" required placeholder="例如：跨境独立站转化专家" />
+          </label>
+          <div class="form-row">
+            <label>
+              <span>所属分类</span>
+              <select name="categoryId" id="modalCategorySelect"></select>
+            </label>
+            <label>
+              <span>标签（逗号分隔，最多3个）</span>
+              <input name="tags" placeholder="独立站, SEO, 转化优化" />
+            </label>
+          </div>
+          <label>
+            <span>一句话简介</span>
+            <input name="description" placeholder="擅长独立站着陆页优化、广告素材拆解与转化率提升" />
+          </label>
+          <label>
+            <span>默认快捷开场白</span>
+            <input name="defaultInitPrompt" placeholder="请帮我诊断当前独立站着陆页的转化漏斗并给出优化方案" />
+          </label>
+          <label>
+            <span>专家人设提示词 (Markdown) *</span>
+            <textarea name="promptContent" rows="7" required placeholder="# 角色定位&#10;你是一位拥有10年经验的...&#10;&#10;## 核心工作流&#10;1. ..."></textarea>
+          </label>
+          <div class="modal-actions">
+            <button type="button" id="cancelModalBtn" class="btn btn-secondary">取消</button>
+            <button type="submit" class="btn btn-primary">保存并添加到我的专家</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "antigravity-expert-hub",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "WorkBuddy-style Expert & Skill Marketplace MCP App plugin for Antigravity",
+  "scripts": {
+    "build:ui": "vite build",
+    "start": "node server/index.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.25.0",
+    "zod": "^4.2.0"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/ext-apps": "latest",
+    "vite": "^6.2.0",
+    "vite-plugin-singlefile": "^2.2.0"
+  }
+}
